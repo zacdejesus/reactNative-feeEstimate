@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>I'm receiving</Text>
       </TouchableOpacity>
       <View style={styles.bottom}>
-         <Text style={styles.bottomText}>* Using Domestic fee rate of 3.49% + $.49</Text>
+         <Text style={styles.bottomText}>* Using Domestic fee rate of 3.49% + $0.49</Text>
       </View>
     </View>
   );
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 15,
+    marginBottom: 25,
     height: 10
   }
 });
