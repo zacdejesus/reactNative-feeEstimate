@@ -1,32 +1,37 @@
 import React, { useState } from "react";
+import CurrencyInput, { formatNumber } from "react-native-currency-input";
 import {
   StyleSheet,
   Text,
   View,
   StatusBar,
-  SafeAreaView,
   TouchableOpacity,
-  Platform, 
-  Image
+  Platform,
+  Image,
+  TextInput,
 } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
-  
-  const onPressSending = () => {
-    navigation.navigate("CalculatorScreen", { isSending: true});
-  };
 
-  const onPressReceiving = () => {
-    navigation.navigate("CalculatorScreen", { isSending: false});
-  };
+  const [selectedPercentage, setSelectedPercentage] = useState(0);
+  const [selectedFixedFeeAmount, setSelectedFixedFeeAmount] = useState();
+
+  const onPressSending = () => navigation.navigate("CalculatorScreen", { isSending: true, percentage: selectedPercentage, fixedFee: selectedFixedFeeAmount })
+  const onPressReceiving = () => navigation.navigate("CalculatorScreen", { isSending: false, percentage: selectedPercentage, fixedFee: selectedFixedFeeAmount})
+  
+  const onTextChangedFixed = (text) => setSelectedFixedFeeAmount(text.replace(/[^0-9,.]/g, ""))
+  const onTextChangedPercentenge = (text) => setSelectedPercentage(text)
+  
 
   return (
     <View style={styles.container}>
-     
-      <Image style={styles.imageF} source={require('../assets/pngwing.com.png')} />
-      <StatusBar barStyle="dark-content"/>
+      <Image
+        style={styles.imageF}
+        source={require("../assets/pngwing.com.png")}
+      />
+      <StatusBar barStyle="dark-content" />
       <View style={styles.top}>
-         <Text style={styles.bottomText}>PayPal Fee Calculator</Text>
+        <Text style={styles.buttonText}>PayPal Fee Calculator</Text>
       </View>
 
       <TouchableOpacity onPress={onPressSending} style={styles.button}>
@@ -36,8 +41,33 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={onPressReceiving} style={styles.button}>
         <Text style={styles.buttonText}>I'm receiving</Text>
       </TouchableOpacity>
-      <View style={styles.bottom}>
-         <Text style={styles.bottomText}>* Using Domestic fee rate of 3.49% + $0.49</Text>
+
+      <View style={styles.inputView}>
+        {/* <TextInput
+          style={styles.feesInputText}
+          keyboardType="numeric"
+          onChangeText={(text) => onTextChangedPercentenge(text)}
+          value={selectedPercentage}
+        /> */}
+
+        <CurrencyInput
+          style={styles.feesInputText}
+          value={selectedPercentage}
+          onChangeValue={setSelectedPercentage}
+          prefix="$"
+          delimiter=","
+          separator="."
+          maxValue="10"
+          minValue="0"
+          precision={1}
+        />
+
+        <TextInput
+          style={styles.feesInputText}
+          keyboardType="numeric"
+          onChangeText={(text) => onTextChangedFixed(text)}
+          value={selectedFixedFeeAmount}
+        />
       </View>
     </View>
   );
@@ -52,34 +82,34 @@ const styles = StyleSheet.create({
   },
   imageF: {
     margin: 40,
-    width: '15%',
-    height: '15%'
+    width: "15%",
+    height: "15%",
   },
-  buttonText : {
+  buttonText: {
     fontSize: 20,
   },
   button: {
     backgroundColor: "white",
-    margin: '10%',
+    margin: "10%",
     padding: 20,
     borderRadius: 13,
     fontWeight: "bold",
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
-  },
-  bottomText: {
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
-    color: 'white',
-    fontSize: 20,
+    fontFamily: Platform.OS === "ios" ? "Arial Hebrew" : "sans-serif",
   },
   top: {
-    marginTop: 15
+    marginTop: 15,
   },
-  bottom: {
+  inputView: {
     flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 25,
-    height: 10
-  }
+    flexDirection: "row",
+  },
+  feesInputText: {
+    margin: 40,
+    width: "20%",
+    height: "15%",
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
 });
 
 export default HomeScreen;

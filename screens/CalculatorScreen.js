@@ -8,10 +8,12 @@ const CalculatorScreen = ({ route, navigation }) => {
   const [feeValue, setFeeValue] = useState(0);
   const [userInput, setUserInput] = useState(0.0);
 
-  const { isSending } = route.params;
+  const { isSending, percentage, fixedFee } = route.params;
 
   const onChangeAmountValue = () => {
-    const feeValueCal = (userInput * 3.98) / 100;
+    
+    let  feeValueCal = (userInput * percentage) / 100;
+    feeValueCal = +feeValueCal + +fixedFee
     let finalValueCal
 
     if (isSending) {
@@ -46,9 +48,9 @@ const CalculatorScreen = ({ route, navigation }) => {
       <ScrollView>
 
         { 
-            (isSending)
-            ? <Text style={styles.text}>If sending</Text>
-            : <Text style={styles.text}>To receive</Text>
+          (isSending)
+          ? <Text style={styles.text}>If sending</Text>
+          : <Text style={styles.text}>To receive</Text>
         }
 
         <CurrencyInput
