@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./screens/HomeScreen.js";
 import CalculatorScreen from "./screens/CalculatorScreen.js";
+import WebViewScreen from './screens/WebViewScreen.js'
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -16,21 +17,32 @@ function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={
-            {headerShown: false}
-          }
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="CalculatorScreen"
           component={CalculatorScreen}
           options={{
-            title: "",
+            title: "Calculator",
             headerStyle: {
-              backgroundColor: "#3b7bbf",
+              backgroundColor: "#37a3cf",
             },
-            headerTintColor: "white"
+            headerTintColor: "white",
           }}
         />
+
+        <Stack.Screen
+          name="WebViewScreen"
+          component={WebViewScreen}
+          options={{
+            title: "PayPal fees",
+            headerStyle: {
+              backgroundColor: "#37a3cf",
+            },
+            headerTintColor: "white",
+          }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
