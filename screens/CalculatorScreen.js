@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, SafeAreaView, Platform, View } from "react-native";
 import CurrencyInput, { formatNumber } from "react-native-currency-input";
-import { ScrollView } from "react-native-gesture-handler";
+import { Keyboard } from "react-native";
+import {
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Text,
+  SafeAreaView,
+  Platform,
+  View,
+} from "react-native";
 
-const CalculatorScreen = ({ route, navigation }) => {
+const CalculatorScreen = ({ route }) => {
   const [finalValue, setFinalValue] = useState(0);
   const [feeValue, setFeeValue] = useState(0);
   const [userInput, setUserInput] = useState(0.0);
 
-  const { isSending } = route.params;
+  const { isSending, percentage, fixedFee } = route.params;
 
   const onChangeAmountValue = () => {
-    const feeValueCal = (userInput * 3.98) / 100;
-    let finalValueCal
+    let feeValueCal = (userInput * percentage) / 100;
+    feeValueCal = +feeValueCal + +fixedFee;
+    let finalValueCal;
 
     if (isSending) {
-        finalValueCal = userInput - feeValueCal;
+      finalValueCal = userInput - feeValueCal;
     } else {
-        finalValueCal = userInput + feeValueCal;
+      finalValueCal = userInput + feeValueCal;
     }
 
     const feeValueCalFormated = formatNumber(feeValueCal, {
@@ -41,95 +49,83 @@ const CalculatorScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-    <View style={styles.container2}>
-      <ScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container2}>
+          {isSending ? (
+            <Text style={styles.text}>If sending</Text>
+          ) : (
+            <Text style={styles.text}>To receive</Text>
+          )}
 
-        { 
-            (isSending)
-            ? <Text style={styles.text}>If sending</Text>
-            : <Text style={styles.text}>To receive</Text>
-        }
+          <CurrencyInput
+            style={styles.currenciesTextInput}
+            value={userInput}
+            onChangeValue={setUserInput}
+            prefix="$"
+            delimiter=","
+            separator="."
+            maxValue="1000000000"
+            minValue="0"
+            precision={2}
+            onChangeText={(formattedValue) => {
+              onChangeAmountValue(formattedValue);
+            }}
+          />
 
-        <CurrencyInput
-          style={styles.currenciesTextInput}
-          value={userInput}
-          onChangeValue={setUserInput}
-          prefix="$"
-          delimiter=","
-          separator="."
-          maxValue="1000000000"
-          minValue="0"
-          precision={2}
-          onChangeText={(formattedValue) => {
-            onChangeAmountValue(formattedValue);
-          }}
-        />
+          {isSending ? (
+            <Text style={styles.text}>the amount that will go to fees is</Text>
+          ) : (
+            <Text style={styles.text}>will go to fees</Text>
+          )}
 
-        { 
-            (isSending)
-            ? <Text style={styles.text}>the amount that will go to fees is</Text>
-            : <Text style={styles.text}>will go to fees</Text>
-        }
+          <Text style={styles.currenciesText}>{feeValue}</Text>
 
-        <Text style={styles.currenciesText}>{feeValue}</Text>
+          {isSending ? (
+            <Text style={styles.text}>and the recipient will receive</Text>
+          ) : (
+            <Text style={styles.text}>this amount should be sent</Text>
+          )}
 
-        { 
-            (isSending)
-            ? <Text style={styles.text}>and the recipient will receive</Text>
-            : <Text style={styles.text}>this amount should be sent</Text>
-        }
-
-        <Text style={styles.currenciesText}>{finalValue}</Text>
-
-        <Text style={styles.textmessage}>PayPal fees current as of October 12, 2021.</Text>
-      </ScrollView>
-      </View>
-    </SafeAreaView>
+          <Text style={styles.currenciesText}>{finalValue}</Text>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3b7bbf",
+    backgroundColor: "#37a3cf",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 100
-  },
-  container2: {
-    marginTop: 15
   },
   currenciesText: {
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
+    fontFamily: Platform.OS === "ios" ? "Arial Hebrew" : "sans-serif",
     backgroundColor: "white",
     fontSize: 20,
     margin: 20,
     padding: 15,
     borderRadius: 13,
-    paddingTop: 20, 
+    paddingTop: 20,
     marginTop: 20,
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   currenciesTextInput: {
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
+    fontFamily: Platform.OS === "ios" ? "Arial Hebrew" : "sans-serif",
     backgroundColor: "white",
     fontSize: 20,
     margin: 20,
     padding: 15,
     borderRadius: 13,
-    paddingTop: 20, 
-    marginTop: 20
+    paddingTop: 20,
+    marginTop: 20,
   },
   text: {
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
+    fontFamily: Platform.OS === "ios" ? "Arial Hebrew" : "sans-serif",
     fontSize: 22,
-    color: "white"
-  },
-  textmessage: {
-    fontFamily: Platform.OS === 'ios' ? "Arial Hebrew" : 'sans-serif',
-    fontSize: 16,
-    color: "white"
+    color: "white",
   },
 });
 

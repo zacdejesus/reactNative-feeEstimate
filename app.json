@@ -2,7 +2,7 @@
   "expo": {
     "name": "feeEstimate",
     "slug": "feeEstimate",
-    "version": "1.0.0",
+    "version": "2.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,14 +19,21 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.alejandrodejesus.feeEstimate",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.alejandrodejesus.feeEstimate"
+      "config": {
+        "googleMobileAdsAppId": "" 
+      },
+      "package": "com.alejandrodejesus.feeEstimate",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
