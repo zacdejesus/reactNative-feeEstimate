@@ -1,9 +1,15 @@
 import React from 'react'
-import { ActivityIndicator } from 'react-native'
+import { NativeModules, Platform, ActivityIndicator } from 'react-native'
 import { WebView } from 'react-native-webview';
 
-const WebViewScreen = ({ route, navigation }) => {
+const WebViewScreen = ({ route: any, navigation }) => {
   const LoadingIndicatorView = () => {
+
+    const deviceLanguage = Platform.OS === 'ios'
+            ? NativeModules.SettingsManager.settings.AppleLocale ||
+              NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+            : NativeModules.I18nManager.localeIdentifier;
+
     return (
       <ActivityIndicator
         color='#0a1142'
@@ -18,7 +24,7 @@ const WebViewScreen = ({ route, navigation }) => {
 
     return (
       <WebView
-        source={{ uri: "https://www.paypal.com/webapps/mpp/paypal-fees" }}
+        source={{ uri: "https://www.paypal.com/${deviceLanguage}/webapps/mpp/paypal-fees" }}
         renderLoading={LoadingIndicatorView}
         startInLoadingState={true}
       />

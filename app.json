@@ -21,7 +21,7 @@
       "bundleIdentifier": "com.alejandrodejesus.feeEstimate",
       "buildNumber": "1.0.1",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
+        //"googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
       }
     },
     "android": {
@@ -30,7 +30,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "config": {
-        "googleMobileAdsAppId": "" 
+       // "googleMobileAdsAppId": "" 
       },
       "package": "com.alejandrodejesus.feeEstimate",
       "versionCode": 2

@@ -3,47 +3,27 @@ import React from "react";
 import { StyleSheet, Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeScreen from "./screens/HomeScreen.js";
-import CalculatorScreen from "./screens/CalculatorScreen.js";
 import WebViewScreen from './screens/WebViewScreen.js'
 
+import navigatorScreen from './CustomNavigation.js'
+
+const Tab = createMaterialBottomTabNavigator();
+
 function App() {
-  const Stack = createNativeStackNavigator();
+  
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CalculatorScreen"
-          component={CalculatorScreen}
-          options={{
-            title: "Calculator",
-            headerStyle: {
-              backgroundColor: "#37a3cf",
-            },
-            headerTintColor: "white",
-          }}
-        />
 
-        <Stack.Screen
-          name="WebViewScreen"
-          component={WebViewScreen}
-          options={{
-            title: "PayPal fees",
-            headerStyle: {
-              backgroundColor: "#37a3cf",
-            },
-            headerTintColor: "white",
-          }}
-        />
+      <Tab.Navigator>    
+        <Tab.Screen name="Home" component={navigatorScreen} />
+        <Tab.Screen name="Web" component={WebViewScreen} />
+      
+      </Tab.Navigator>
 
-      </Stack.Navigator>
     </NavigationContainer>
   );
 }

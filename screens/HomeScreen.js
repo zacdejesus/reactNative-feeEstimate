@@ -91,7 +91,7 @@ const HomeScreen = ({ navigation }) => {
             delimiter=","
             separator="."
             maxValue="10"
-            minValue="0"
+            minValue = "0"
             precision={1}
           />
 
